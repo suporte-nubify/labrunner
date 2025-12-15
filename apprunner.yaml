@@ -1,0 +1,30 @@
+version: 1.0
+runtime: python3
+
+build:
+  commands:
+    - pip install --upgrade pip
+    - pip install -r requirements.txt
+
+run:
+  command: uvicorn app.main:app --host 0.0.0.0 --port 8080
+  network:
+    port: 8080
+  env:
+    - name: DB_HOST
+      value: "awsrunner.ckvog8o8ywe4.us-east-1.rds.amazonaws.com"
+    - name: DB_PORT
+      value: "3306"
+    - name: DB_NAME
+      value: "apprunner"
+    - name: DB_USER
+      value: "admin"
+    # Para ambiente de produção, use Secrets Manager e referencie em envSecrets.
+    - name: DB_PASSWORD
+      value: "5*tvUcxw27"
+  # Opcional: comente env acima e use Secrets Manager para a senha
+  #envSecrets:
+  #  - name: DB_PASSWORD
+  #    value: "<arn-ou-nome-do-segredo>"
+
+

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>App Runner + FastAPI + RDS</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; background: #f7f7f7; }
+    h1 { color: #0a4d8c; }
+    .card { background: white; padding: 1rem 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 1rem; }
+    form { display: flex; flex-direction: column; gap: 0.75rem; }
+    input, textarea { padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid #ccc; width: 100%; }
+    button { background: #0a4d8c; color: white; border: none; padding: 0.8rem 1rem; border-radius: 6px; cursor: pointer; }
+    button:hover { background: #0c5faa; }
+    .note { border-left: 4px solid #0a4d8c; padding-left: 1rem; }
+    .muted { color: #666; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <h1>App Runner + FastAPI + RDS</h1>
+  <div class="card">
+    <h2>Criar anotação</h2>
+    <form action="/notes" method="post">
+      <input name="title" placeholder="Título" required maxlength="200">
+      <textarea name="content" rows="4" placeholder="Conteúdo" required maxlength="2000"></textarea>
+      <button type="submit">Salvar</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Anotações (ordem recente)</h2>
+    {% if notes %}
+      {% for note in notes %}
+        <div class="note">
+          <h3>{{ note.title }}</h3>
+          <p>{{ note.content }}</p>
+          <p class="muted">Criado em: {{ note.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+        </div>
+        <hr>
+      {% endfor %}
+    {% else %}
+      <p class="muted">Nenhuma anotação salva ainda. Crie a primeira!</p>
+    {% endif %}
+  </div>
+</body>
+</html>
+
+
